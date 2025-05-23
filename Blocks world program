@@ -1,0 +1,17 @@
+state = {
+    'on': {'A': 'table', 'B': 'A', 'C': 'table'},
+    'clear': {'B', 'C'}
+}
+
+def move(x, y):
+    if x in state['clear'] and y in state['clear']:
+        old = state['on'][x]
+        state['on'][x] = y
+        state['clear'].remove(y)
+        state['clear'].add(old)
+        print(f"Moved {x} to {y}")
+    else:
+        print(f"Can't move {x} to {y}")
+
+move('B', 'C')
+print("New State:", state)
