@@ -1,0 +1,23 @@
+# Knowledge Base
+facts = {'sunny'}
+rules = {
+    'go_outside': [['sunny']],
+    'wear_sunglasses': [['go_outside']]
+}
+
+def backward_chaining(goal, visited=None):
+    if visited is None:
+        visited = set()
+    if goal in facts:
+        return True
+    if goal in visited:
+        return False
+    visited.add(goal)
+    for premises in rules.get(goal, []):
+        if all(backward_chaining(p, visited) for p in premises):
+            return True
+    return False
+
+# Test
+goal = 'wear_sunglasses'
+print("Can we infer '{}'?".format(goal), backward_chaining(goal))
