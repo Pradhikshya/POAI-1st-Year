@@ -1,0 +1,20 @@
+facts = {'sunny'}
+rules = {
+    'go_outside': ['sunny'],
+    'wear_sunglasses': ['go_outside']
+}
+
+def forward_chaining(facts, rules):
+    inferred = set(facts)
+    while True:
+        added = False
+        for head, body in rules.items():
+            if head not in inferred and all(b in inferred for b in body):
+                inferred.add(head)
+                added = True
+        if not added:
+            break
+    return inferred
+
+result = forward_chaining(facts, rules)
+print("Inferred facts:", result)
