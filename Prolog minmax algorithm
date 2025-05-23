@@ -1,0 +1,8 @@
+min(X, Y, X) :- X =< Y, !.
+min(_, Y, Y).
+
+max(X, Y, X) :- X >= Y, !.
+max(_, Y, Y).
+
+% Example query:
+% ?- min(3, 5, Min), max(3, 5, Max).
