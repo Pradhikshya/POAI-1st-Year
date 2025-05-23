@@ -1,0 +1,19 @@
+% Define facts
+loves(john, mary).
+loves(mary, pizza).
+
+% Define rules
+loves(john, X) :- loves(mary, X).
+
+?- loves(john, mary).
+true.
+
+?- loves(mary, pizza).
+true.
+
+?- loves(john, pizza).
+true.
+
+?- loves(john, X).
+X = mary ;
+X = pizza.
