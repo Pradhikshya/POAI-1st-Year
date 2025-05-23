@@ -1,0 +1,14 @@
+def fuzzify(temp):
+    cold = max(0, min(1, (25 - temp) / 10))
+    hot = max(0, min(1, (temp - 20) / 10))
+    return {'cold': cold, 'hot': hot}
+
+def infer(fuzzy_temp):
+    fan_slow = fuzzy_temp['cold']
+    fan_fast = fuzzy_temp['hot']
+    return (fan_slow * 20 + fan_fast * 80) / (fan_slow + fan_fast)
+
+temp = 24
+fuzzy = fuzzify(temp)
+fan_speed = infer(fuzzy)
+print("Fan Speed:", round(fan_speed, 2))
