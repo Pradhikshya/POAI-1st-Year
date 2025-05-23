@@ -1,0 +1,48 @@
+def unify(x, y, substitutions={}):
+    if substitutions is None:
+        return None
+    elif x == y:
+        return substitutions
+    elif isinstance(x, str) and x.islower():
+        return unify_var(x, y, substitutions)
+    elif isinstance(y, str) and y.islower():
+        return unify_var(y, x, substitutions)
+    elif isinstance(x, list) and isinstance(y, list) and len(x) == len(y):
+        for a, b in zip(x, y):
+            substitutions = unify(a, b, substitutions)
+            if substitutions is None:
+                return None
+        return substitutions
+    else:
+        return None
+
+def unify_var(var, x, substitutions):
+    if var in substitutions:
+        return unify(substitutions[var], x, substitutions)
+    elif x in substitutions:
+        return unify(var, substitutions[x], substitutions)
+    else:
+        substitutions[var] = x
+        return substitutions
+x = ['knows', 'john', 'X']
+y = ['knows', 'john', 'mary']
+
+result = unify(x, y)
+print("Unification Result:", result)
+def resolve(clause1, clause2):
+    for literal1 in clause1:
+        for literal2 in clause2:
+            if literal1 == negate(literal2):
+                new_clause = list(set(clause1 + clause2))
+                new_clause.remove(literal1)
+                new_clause.remove(literal2)
+                return new_clause
+    return None
+
+def negate(literal):
+    return literal[1:] if literal.startswith('~') else '~' + literal
+clause1 = ['A', 'B']
+clause2 = ['~B', 'C']
+
+res = resolve(clause1, clause2)
+print("Resolved Clause:", res)
