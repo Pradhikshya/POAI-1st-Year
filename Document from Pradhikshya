@@ -1,24 +1,39 @@
-def dfs(graph, start, visited=None):
-    if visited is None:
-        visited = set()  
+def is_safe(board,row,col):
+    for i in range(col):
+        if board[row][i]==1:
+            return False
+    for i,j in zip(range(row,-1,-1),range(col,-1,-1)):
+        if board[i][j]==1:
+            return False
+    for i,j in zip(range(row,8,1),range(col,-1,-1)):
+        if board[i][j]==1:
+            return False
+    return True
 
-    print(start, end=" ")  
-    visited.add(start)  
+def solve_queens(board,col):
+    if col>=8:
+        return True
+    for i in range(8):
+        if is_safe(board,i,col):
+            board[i][col]=1
+            if solve_queens(board,col+1):
+                return True
+            board[i][col]=0
+    return False
+def print_solution(board):
+    for i in range(8):
+        for j in range(8):
+            print(board[i][j],end=" ")
+        print()
 
-    for neighbor in graph[start]:
-        if neighbor not in visited:
-            dfs(graph, neighbor, visited)
+def solve_8queens():
+    board=[[0 for _ in range(8)]for _ in range(8)]
+    if not solve_queens(board,0):
+        print("No solution")
+        return False
+    print_solution(board)
+    return True
 
-graph = {
-    'A': ['B', 'C'],
-    'B': ['A', 'D', 'E'],
-    'C': ['A', 'F', 'G'],
-    'D': ['B'],
-    'E': ['B', 'H'],
-    'F': ['C'],
-    'G': ['C'],
-    'H': ['E']
-}
-
-print("Depth First Search traversal:")
-dfs(graph,'A')
+solve_8queens()
+    
+    
